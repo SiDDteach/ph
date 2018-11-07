@@ -1,14 +1,14 @@
 <?php echo $this->getContent(); ?>
 
 <div align="right">
-    <?php echo \Phalcon\Tag::linkTo(array("categories/new", "Create Categories", "class" => "btn")) ?>
+    <?php echo \Phalcon\Tag::linkTo(array(BASE_DIR."categories/new", "Create Categories", "class" => "btn")) ?>
 </div>
 
 <div align="center">
 
     <h1>Search categories</h1>
 
-    <?php echo \Phalcon\Tag::form(array("categories/search", "autocomplete" => "off")) ?>
+    <?php echo \Phalcon\Tag::form(array(BASE_DIR."categories/search", "autocomplete" => "off")) ?>
     <table align="center">
         <tr>
             <td align="right">

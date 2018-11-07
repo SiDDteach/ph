@@ -1,9 +1,9 @@
 
-<?php echo \Phalcon\Tag::form(array("categories/create", "autocomplete" => "off")) ?>
+<?php echo \Phalcon\Tag::form(array(BASE_DIR."categories/create", "autocomplete" => "off")) ?>
 
     <table width="100%">
         <tr>
-            <td align="left"><?php echo \Phalcon\Tag::linkTo(array("categories", "Go Back", "class" => "btn")) ?></td>
+            <td align="left"><?php echo \Phalcon\Tag::linkTo(array(BASE_DIR."categories", "Go Back", "class" => "btn")) ?></td>
             <td align="right"><?php echo \Phalcon\Tag::submitButton(array("Save", "class" => "btn")) ?></td>
         <tr>
     </table>

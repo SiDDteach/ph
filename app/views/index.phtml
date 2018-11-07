@@ -21,21 +21,21 @@
                     <div class="nav-collapse">
                         <ul class="nav pull-left">
                             <li>
-                                <?php echo Phalcon\Tag::linkTo('index', 'Home Page') ?>
+                                <?php echo Phalcon\Tag::linkTo(BASE_DIR /*'index'*/, 'Home Page') ?>
                             </li>
                             <?php if ($this->session->has('auth')) { ?>
                                 <li>
-                                    <?php echo Phalcon\Tag::linkTo('posts/index', '+Posts') ?>
+                                    <?php echo Phalcon\Tag::linkTo(BASE_DIR.'posts/index', '+Posts') ?>
                                 </li>
                                 <li>
-                                    <?php echo Phalcon\Tag::linkTo('categories/index', '+Categories') ?>
+                                    <?php echo Phalcon\Tag::linkTo(BASE_DIR.'categories/index', '+Categories') ?>
                                 </li>
                                 <li>
-                                    <?php echo Phalcon\Tag::linkTo('users/logout', 'Log out') ?>
+                                    <?php echo Phalcon\Tag::linkTo(BASE_DIR.'users/logout', 'Log out') ?>
                                 </li>
                             <?php } else { ?>
                                 <li>
-                                    <?php echo Phalcon\Tag::linkTo('users/index', 'Log in') ?>
+                                    <?php echo Phalcon\Tag::linkTo(BASE_DIR.'users/index', 'Log in') ?>
                                 </li>
                             <?php } ?>
                         </ul>

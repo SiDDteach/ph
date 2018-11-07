@@ -12,7 +12,7 @@
 		<tr>
 			<td><?php echo $post->title ?></td>
 			<td><?php echo $post->created ?></td>
-			<td><?php echo Tag::linkTo('posts/show/'.$post->slug, 'Details') ?></td>
+			<td><?php echo Tag::linkTo(BASE_DIR.'posts/show/'.$post->slug, 'Details') ?></td>
 		</tr>
 	<?php } ?>
 	</table>
