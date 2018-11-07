@@ -1,7 +1,7 @@
 <?php
 
 
-class Users extends \Phalcon\Mvc\Model
+class Categories extends \Phalcon\Mvc\Model
 {
 
     /**
@@ -14,13 +14,13 @@ class Users extends \Phalcon\Mvc\Model
      * @var string
      *
      */
-    public $login;
+    public $name;
 
     /**
      * @var string
      *
      */
-    public $password;
+    public $slug;
 
 
     /**
@@ -28,7 +28,7 @@ class Users extends \Phalcon\Mvc\Model
      */
     public function initialize()
     {
-        $this->hasMany("id", "Posts", "users_id");
+        $this->hasMany("id", "Posts", "categories_id");
     }
 
 }

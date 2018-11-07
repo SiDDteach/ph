@@ -1,83 +1,98 @@
 <?php
 
-use Phalcon\Loader;
-use Phalcon\Mvc\View;
-use Phalcon\Mvc\Application;
-use Phalcon\Di\FactoryDefault;
-use Phalcon\Mvc\Url as UrlProvider;
-use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
-
-// Определяем некоторые константы с абсолютными путями
-// для использования с локальными ресурасами
-define('BASE_PATH', dirname(__DIR__));
-define('APP_PATH', BASE_PATH . '/app');
-
-// Регистрируем автозагрузчик
-$loader = new Loader();
-
-$loader->registerDirs(
-    [
-        APP_PATH . '/controllers/',
-        APP_PATH . '/models/',
-    ]
-);
-
-$loader->register();
-
-// Создаём контейнер DI
-$di = new FactoryDefault();
-
-// Настраиваем сервис для работы с БД
-$di->set(
-    'db',
-    function () {
-        return new DbAdapter(
-            [
-                'host'     => '127.0.0.1',
-                'username' => 'root',
-                'password' => '1',
-                'dbname'   => 'ph',
-            ]
-        );
-    }
-);
-
-// астраиваем компонент представлений
-$di->set(
-    'view',
-    function () {
-        $view = new View();
-        $view->setViewsDir(APP_PATH . '/views/');
-        return $view;
-    }
-);
-
-// Setup a base URI
-$di->set(
-    'url',
-    function () {
-        $url = new UrlProvider();
-        $url->setBaseUri('/');
-        return $url;
-    }
-);
-
-// Роутер
-$di->set(
-    'router',
-    function () {
-        return require APP_PATH . '/config/routes.php';
-    }
-);
-
-
-$application = new Application($di);
+error_reporting(E_ALL);
 
 try {
-// Handle the request
-    $response = $application->handle();
 
-    $response->send();
-} catch (\Exception $e) {
-    echo 'Exception: ', $e->getMessage();
+	/**
+	 * Read the configuration
+	 */
+	$config = include(__DIR__."/../app/config/config.php");
+
+	$loader = new \Phalcon\Loader();
+
+	/**
+	 * We're a registering a set of directories taken from the configuration file
+	 */
+	$loader->registerDirs(
+		array(
+			$config->application->controllersDir,
+			$config->application->modelsDir
+		)
+	)->register();
+
+	/**
+	 * The FactoryDefault Dependency Injector automatically register the right services providing a full stack framework
+	 */
+	$di = new \Phalcon\DI\FactoryDefault();
+
+	/**
+	 * Include the application routes
+	 */
+	$di->set('router', function(){
+		return include(__DIR__."/../app/config/routes.php");
+	});
+
+	/**
+	 * The URL component is used to generate all kind of urls in the application
+	 */
+	$di->set('url', function() use ($config) {
+		$url = new \Phalcon\Mvc\Url();
+		$url->setBaseUri($config->application->baseUri);
+		return $url;
+	});
+
+	/**
+	 * Setting up the view component
+	 */
+	$di->set('view', function() use ($config) {
+		$view = new \Phalcon\Mvc\View();
+		$view->setViewsDir($config->application->viewsDir);
+		return $view;
+	});
+
+	/**
+	 * Database connection is created based in the parameters defined in the configuration file
+	 */
+	$di->set('db', function() use ($config) {
+		return new \Phalcon\Db\Adapter\Pdo\Mysql(array(
+			"host" => $config->database->host,
+			"username" => $config->database->username,
+			"password" => $config->database->password,
+			"dbname" => $config->database->name
+		));
+	});
+
+	/**
+	 * Register the flash service with custom CSS classes
+	 */
+	$di->set('flash', function(){
+		return new Phalcon\Flash\Direct(array(
+			'error' => 'alert alert-danger',
+			'success' => 'alert alert-success',
+			'notice' => 'alert alert-info',
+			'warning' => 'alert alert-warning'
+		));
+	});
+
+	/**
+	 * Start the session the first time some component request the session service
+	 */
+	$di->set('session', function() {
+		$session = new \Phalcon\Session\Adapter\Files();
+		$session->start();
+		return $session;
+	});
+
+	/**
+	 * Handle the request
+	 */
+	$application = new \Phalcon\Mvc\Application();
+	$application->setDI($di);
+	echo $application->handle()->getContent();
+
+} catch (Phalcon\Exception $e) {
+	echo $e->getMessage();
+} catch (PDOException $e){
+	echo $e->getMessage();
 }
