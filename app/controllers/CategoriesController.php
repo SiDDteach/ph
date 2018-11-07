@@ -42,7 +42,7 @@ class CategoriesController extends ControllerBase
 
         $paginator = new \Phalcon\Paginator\Adapter\Model(array(
             "data" => $categories,
-            "limit"=> 10,
+            "limit" => 10,
             "page" => $numberPage
         ));
         $page = $paginator->getPaginate();
@@ -96,7 +96,7 @@ class CategoriesController extends ControllerBase
         $categories->slug = $this->request->getPost("slug");
         if (!$categories->save()) {
             foreach ($categories->getMessages() as $message) {
-                $this->flash->error((string) $message);
+                $this->flash->error((string)$message);
             }
             return $this->dispatcher->forward(array(
                 "controller" => "categories",
@@ -134,13 +134,14 @@ class CategoriesController extends ControllerBase
             ));
         }
 
+        $categories = new Categories();
         $categories->id = $this->request->getPost("id");
         $categories->name = $this->request->getPost("name");
         $categories->slug = $this->request->getPost("slug");
 
         if (!$categories->save()) {
             foreach ($categories->getMessages() as $message) {
-                $this->flash->error((string) $message);
+                $this->flash->error((string)$message);
             }
             return $this->dispatcher->forward(array(
                 "controller" => "categories",
@@ -173,8 +174,8 @@ class CategoriesController extends ControllerBase
         }
 
         if (!$categories->delete()) {
-            foreach ($categories->getMessages() as $message){
-                $this->flash->error((string) $message);
+            foreach ($categories->getMessages() as $message) {
+                $this->flash->error((string)$message);
             }
             return $this->dispatcher->forward(array(
                 "controller" => "categories",
