@@ -61,6 +61,15 @@ $di->set(
     }
 );
 
+// Роутер
+$di->set(
+    'router',
+    function () {
+        return require APP_PATH . '/config/routes.php';
+    }
+);
+
+
 $application = new Application($di);
 
 try {
