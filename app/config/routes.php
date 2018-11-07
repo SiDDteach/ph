@@ -5,21 +5,15 @@ use Phalcon\Mvc\Router\Group as RouterGroup;
 
 $router = new Router();
 
-$router->setDefaults([
-    'namespace' => 'Controller',
-    'controller' => 'index',
-    'action' => 'index',
-]);
-
 $profile = new RouterGroup(
     [
-        'module'     => 'blog',
+        'module'     => 'profile',
         'controller' => 'index',
     ]
 );
 
 $router->add(
-    '/admin/users/my-profile',
+    '/profile/register',
     [
         'controller' => 'users',
         'action'     => 'profile',
@@ -27,12 +21,13 @@ $router->add(
 );
 
 // Another route
-$router->add(
+/*$router->add(
     '/admin/users/change-password',
     [
         'controller' => 'users',
         'action'     => 'changePassword',
     ]
-);
+);*/
 
-$router->handle();
+
+return $router;
