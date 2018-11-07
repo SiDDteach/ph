@@ -21,6 +21,7 @@ $loader->registerDirs(
         APP_PATH . '/models/',
     ]
 );
+
 $loader->register();
 
 // Создаём контейнер DI

@@ -1,19 +1,11 @@
 <?php
 
 use Phalcon\Mvc\Router;
-use Phalcon\Mvc\Router\Group as RouterGroup;
 
 $router = new Router();
 
-$profile = new RouterGroup(
-    [
-        'module'     => 'profile',
-        'controller' => 'index',
-    ]
-);
-
 $router->add(
-    '/profile',
+    '/profile/register',
     [
         'controller' => 'profile',
         'action'     => 'register',
@@ -28,6 +20,5 @@ $router->add(
         'action'     => 'changePassword',
     ]
 );*/
-
 
 return $router;
