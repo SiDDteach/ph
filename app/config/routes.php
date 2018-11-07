@@ -13,10 +13,10 @@ $profile = new RouterGroup(
 );
 
 $router->add(
-    '/profile/register',
+    '/profile',
     [
-        'controller' => 'users',
-        'action'     => 'profile',
+        'controller' => 'profile',
+        'action'     => 'register',
     ]
 );
 
